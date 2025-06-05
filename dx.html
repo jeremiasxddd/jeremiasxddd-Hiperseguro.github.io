@@ -1,0 +1,137 @@
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Hiperseguro | Ciberseguridad y Hackeo Ético</title>
+  <link rel="stylesheet" href="xd.css" />
+</head>
+<body>
+
+  <header>
+    <h1 class="titulo-animado">Hiperseguro</h1>
+    <p class="subtitulo-animado">Especialistas en Hackeo Ético y Protección Digital Profesional</p>
+  </header>
+
+  <section id="planes">
+    <h2>Planes de Servicio</h2>
+
+    <div class="plan">
+      <h3>Plan Inicial - S/50</h3>
+      <ul>
+        <li>Análisis de vulnerabilidades básico</li>
+        <li>Recomendaciones de seguridad</li>
+        <li>Atención en 24h</li>
+      </ul>
+      <button onclick="pagar('Plan Inicial')">Contratar</button>
+    </div>
+
+    <div class="plan">
+      <h3>Plan Estándar - S/100</h3>
+      <ul>
+        <li>Todo lo del Plan Inicial</li>
+        <li>Escaneo de red completo</li>
+        <li>Asesoría adicional por llamada</li>
+      </ul>
+      <button onclick="pagar('Plan Estándar')">Contratar</button>
+    </div>
+
+    <div class="plan">
+      <h3>Plan Avanzado - S/200</h3>
+      <ul>
+        <li>Todo lo del Plan Estándar</li>
+        <li>Simulación de ataques controlados</li>
+        <li>Informe detallado personalizado</li>
+      </ul>
+      <button onclick="pagar('Plan Avanzado')">Contratar</button>
+    </div>
+
+    <div class="plan">
+      <h3>Plan Profesional - S/350</h3>
+      <ul>
+        <li>Todo lo del Plan Avanzado</li>
+        <li>Auditoría total de sistemas</li>
+        <li>Soporte prioritario</li>
+      </ul>
+      <button onclick="pagar('Plan Profesional')">Contratar</button>
+    </div>
+
+    <div class="plan">
+      <h3>Plan Corporativo - S/500</h3>
+      <ul>
+        <li>Todo lo del Plan Profesional</li>
+        <li>Capacitación en ciberseguridad</li>
+        <li>Reporte mensual continuo</li>
+      </ul>
+      <button onclick="pagar('Plan Corporativo')">Contratar</button>
+    </div>
+  </section>
+
+  <!-- Modal de carga -->
+  <div id="modalCarga" class="modal oculto">
+    <div class="contenido-modal">
+      <h2>Procesando <span id="planSeleccionado"></span>...</h2>
+      <p>Redirigiendo al soporte por WhatsApp</p>
+      <div class="barra-externa">
+        <div class="barra-interna" id="barraInterna"></div>
+      </div>
+      <div class="figuras" id="figuras"></div>
+    </div>
+  </div>
+
+  <section id="contacto">
+    <h2>Soporte y Consultas</h2>
+    <p>¿Tienes dudas o necesitas ayuda personalizada? Contáctanos:</p>
+    <p>
+      <a href="https://wa.me/51974853331?text=Hola,%20necesito%20ayuda%20con%20mi%20servicio%20Hiperseguro" target="_blank">
+        Soporte al Cliente por WhatsApp
+      </a>
+    </p>
+  </section>
+
+  <footer>
+    <p>&copy; 2025 Hiperseguro | Desarrollado por JeremiasHuatuco</p>
+  </footer>
+
+  <script>
+    function pagar(plan) {
+      const modal = document.getElementById('modalCarga');
+      const planTexto = document.getElementById('planSeleccionado');
+      const barra = document.getElementById('barraInterna');
+      const figuras = document.getElementById('figuras');
+
+      planTexto.textContent = plan;
+      modal.classList.remove('oculto');
+
+      // Fondo con figuras decorativas
+      figuras.innerHTML = '';
+      for (let i = 0; i < 20; i++) {
+        const figura = document.createElement('div');
+        figura.classList.add('figura');
+        figura.style.left = Math.random() * 100 + '%';
+        figura.style.top = Math.random() * 100 + '%';
+        figura.style.width = Math.random() * 30 + 10 + 'px';
+        figura.style.height = figura.style.width;
+        figura.style.opacity = 0.08;
+        figura.style.borderRadius = Math.random() > 0.5 ? '50%' : '4px';
+        figuras.appendChild(figura);
+      }
+
+      // Animación de barra de carga
+      let porcentaje = 0;
+      barra.style.width = '0%';
+      let intervalo = setInterval(() => {
+        porcentaje += 4;
+        barra.style.width = porcentaje + '%';
+        if (porcentaje >= 100) {
+          clearInterval(intervalo);
+          const mensaje = encodeURIComponent(`Hola, quiero contratar el ${plan} de Hiperseguro.`);
+          window.location.href = `https://wa.me/51974853331?text=${mensaje}`;
+        }
+      }, 80);
+    }
+  </script>
+
+</body>
+</html>
