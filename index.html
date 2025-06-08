@@ -1,22 +1,378 @@
-
 <!DOCTYPE html>
 <html lang="es">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Hiperseguro | Ciberseguridad y Hackeo Ético</title>
-  <link rel="stylesheet" href="style.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --primario: #00ffe1;
+      --fondo-oscuro: #0f1115;
+      --fondo-claro: #f4f4f4;
+      --texto-oscuro: #1a1a1a;
+      --texto-claro: #fff;
+      --plan-bg-oscuro: #1a1f27;
+      --plan-bg-claro: #e0f7f9;
+      --plan-border: #00ffe1;
+      --gris-claro: #ccc;
+      --gris-oscuro: #444;
+      --shadow-plan: rgba(0, 255, 225, 0.3);
+      --font: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      --font-futurista: 'Orbitron', sans-serif;
+    }
+
+    body {
+      font-family: var(--font);
+      margin: 0;
+      padding: 0;
+      background-color: var(--fondo-oscuro);
+      color: var(--texto-claro);
+      line-height: 1.6;
+      overflow-x: hidden;
+      transition: background-color 0.4s, color 0.4s;
+    }
+
+    body.modo-claro {
+      background-color: var(--fondo-claro);
+      color: var(--texto-oscuro);
+    }
+
+    header {
+      background-color: #12161c;
+      padding: 40px 20px;
+      text-align: center;
+      border-bottom: 4px solid var(--primario);
+      user-select: none;
+      font-family: var(--font-futurista);
+    }
+
+    header.modo-claro {
+      background-color: #e5f6f8;
+      border-color: #007a71;
+      color: var(--texto-oscuro);
+    }
+
+    header h1 {
+      font-size: 2.8em;
+      margin-bottom: 10px;
+      color: var(--primario);
+      text-shadow: 0 0 10px var(--primario);
+    }
+
+    header.modo-claro h1 {
+      color: #007a71;
+      text-shadow: none;
+    }
+
+    header p {
+      font-size: 1.3em;
+      color: #cccccc;
+    }
+
+    header.modo-claro p {
+      color: #444;
+    }
+
+    .logo-hiper {
+      margin-bottom: 1rem;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .logo-container {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .logo-square {
+      width: 30px;
+      height: 30px;
+      background: linear-gradient(45deg, #00ffe1, #007a71);
+      box-shadow: 0 0 15px #00ffe1, 0 0 25px #007a71;
+      animation: rotar 4s linear infinite;
+      border-radius: 6px;
+      position: relative;
+    }
+
+    .logo-square::before,
+    .logo-square::after {
+      content: '';
+      position: absolute;
+      border-radius: 3px;
+      background: #00ffe1;
+      box-shadow: 0 0 10px #00ffe1;
+    }
+
+    .logo-square::before {
+      top: 6px;
+      left: 8px;
+      width: 3px;
+      height: 18px;
+      animation: parpadear 3s infinite;
+    }
+
+    .logo-square::after {
+      top: 8px;
+      left: 14px;
+      width: 10px;
+      height: 3px;
+      animation: parpadear 2s infinite;
+    }
+
+    @keyframes rotar {
+      0% {
+        transform: rotate(0deg);
+      }
+      100% {
+        transform: rotate(360deg);
+      }
+    }
+
+    @keyframes parpadear {
+      0%,
+      100% {
+        opacity: 1;
+      }
+      50% {
+        opacity: 0.3;
+      }
+    }
+
+    .logo-text {
+      font-family: var(--font-futurista);
+      font-weight: 900;
+      font-size: 1.8rem;
+      color: var(--primario);
+      text-shadow: 0 0 12px var(--primario), 0 0 25px #00ffe1;
+      letter-spacing: 5px;
+      text-transform: uppercase;
+    }
+
+    .modo-claro .logo-text {
+      color: #007a71;
+      text-shadow: none;
+    }
+
+    #modoToggle {
+      position: fixed;
+      top: 10px;
+      right: 10px;
+      z-index: 1000;
+      background: var(--primario);
+      border: none;
+      font-size: 1rem;
+      cursor: pointer;
+      color: var(--texto-oscuro);
+      padding: 8px 14px;
+      border-radius: 25px;
+      font-weight: 700;
+      box-shadow: 0 0 15px var(--primario);
+      user-select: none;
+      transition: background-color 0.4s, color 0.4s;
+    }
+
+    body.modo-claro #modoToggle {
+      background: #007a71;
+      color: var(--texto-claro);
+      box-shadow: 0 0 15px #007a71;
+    }
+
+    #planes {
+      padding: 40px 20px;
+      display: flex;
+      gap: 2rem;
+      overflow-x: auto;
+      scroll-snap-type: x mandatory;
+      -webkit-overflow-scrolling: touch;
+      scroll-behavior: smooth;
+      cursor: grab;
+    }
+
+    .plan {
+      background-color: var(--plan-bg-oscuro);
+      border: 2px solid var(--plan-border);
+      border-radius: 15px;
+      padding: 25px;
+      min-width: 280px;
+      scroll-snap-align: center;
+      box-shadow: 0 0 20px var(--shadow-plan);
+      flex-shrink: 0;
+      color: #ccc;
+      transition: background-color 0.4s, color 0.4s;
+    }
+
+    body.modo-claro .plan {
+      background-color: var(--plan-bg-claro);
+      border-color: #007a71;
+      color: var(--texto-oscuro);
+    }
+
+    .plan h3 {
+      font-family: var(--font-futurista);
+      font-weight: 900;
+      font-size: 2rem;
+      color: var(--primario);
+      transition: color 0.4s;
+    }
+
+    body.modo-claro .plan h3 {
+      color: #007a71;
+    }
+
+    .plan ul {
+      list-style: none;
+      padding: 0;
+    }
+
+    .plan button {
+      background-color: var(--primario);
+      border: none;
+      color: var(--texto-oscuro);
+      font-weight: 700;
+      padding: 10px 18px;
+      font-size: 1rem;
+      border-radius: 30px;
+      box-shadow: 0 0 15px var(--primario);
+      cursor: pointer;
+      transition: background-color 0.4s, color 0.4s;
+    }
+
+    body.modo-claro .plan button {
+      background-color: #007a71;
+      color: var(--texto-claro);
+      box-shadow: 0 0 15px #007a71;
+    }
+
+    .modal {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.8);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 999;
+    }
+
+    .oculto {
+      display: none;
+    }
+
+    .contenido-modal {
+      text-align: center;
+      background: #111;
+      padding: 2rem;
+      border-radius: 10px;
+      color: white;
+    }
+
+    .barra-externa {
+      background: #333;
+      border-radius: 10px;
+      overflow: hidden;
+      margin-top: 1rem;
+    }
+
+    .barra-interna {
+      height: 10px;
+      background: #00ffff;
+      width: 0%;
+      transition: width 0.2s;
+    }
+
+    .figura {
+      position: absolute;
+      background: #00ffff;
+      z-index: -1;
+      animation: flotar 4s infinite ease-in-out;
+    }
+
+    @keyframes flotar {
+      0%,
+      100% {
+        transform: translateY(0);
+      }
+      50% {
+        transform: translateY(-10px);
+      }
+    }
+
+    footer {
+      text-align: center;
+      padding: 20px;
+      font-size: 0.9rem;
+      background-color: #12161c;
+      color: #666;
+      user-select: none;
+    }
+
+    body.modo-claro footer {
+      background-color: #e5f6f8;
+      color: #444;
+    }
+
+    /* Sección soporte cliente */
+    #soporteCliente {
+      background: #12161c;
+      color: #00ffe1;
+      padding: 15px 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 1rem;
+      flex-wrap: wrap;
+      user-select: none;
+    }
+
+    body.modo-claro #soporteCliente {
+      background: #e0f7f9;
+      color: #007a71;
+    }
+
+    #soporteCliente p {
+      margin: 0;
+      font-weight: 700;
+      font-size: 1.1rem;
+    }
+
+    #soporteCliente button {
+      background-color: var(--primario);
+      border: none;
+      padding: 10px 20px;
+      font-weight: 700;
+      color: var(--texto-oscuro);
+      border-radius: 25px;
+      cursor: pointer;
+      box-shadow: 0 0 15px var(--primario);
+      transition: background-color 0.4s, color 0.4s;
+    }
+
+    body.modo-claro #soporteCliente button {
+      background-color: #007a71;
+      color: var(--texto-claro);
+      box-shadow: 0 0 15px #007a71;
+    }
+  </style>
 </head>
 <body>
-
-  <header>
-    <h1 class="titulo-animado">Hiperseguro</h1>
-    <p class="subtitulo-animado">Especialistas en Hackeo Ético y Protección Digital Profesional</p>
+  <button id="modoToggle">Modo Oscuro</button>
+  <header id="header">
+    <div class="logo-hiper">
+      <div class="logo-container">
+        <div class="logo-square"></div>
+        <div class="logo-text">HIPERSEGURO</div>
+      </div>
+    </div>
+    <p>Especialistas en Hackeo Ético y Protección Digital</p>
   </header>
 
   <section id="planes">
-    <h2>Planes de Servicio</h2>
-
+    <!-- planes aquí (igual que antes) -->
     <div class="plan">
       <h3>Plan Inicial - S/50</h3>
       <ul>
@@ -26,7 +382,7 @@
       </ul>
       <button onclick="pagar('Plan Inicial')">Contratar</button>
     </div>
-
+    <!-- resto de planes igual -->
     <div class="plan">
       <h3>Plan Estándar - S/100</h3>
       <ul>
@@ -66,72 +422,133 @@
       </ul>
       <button onclick="pagar('Plan Corporativo')">Contratar</button>
     </div>
+
+    <div class="plan">
+      <h3>Plan Empresarial - S/700</h3>
+      <ul>
+        <li>Todo lo del Plan Corporativo</li>
+        <li>Evaluación mensual de amenazas</li>
+        <li>Consultoría estratégica permanente</li>
+      </ul>
+      <button onclick="pagar('Plan Empresarial')">Contratar</button>
+    </div>
+
+    <div class="plan">
+      <h3>Plan Elite - S/1000</h3>
+      <ul>
+        <li>Todo lo del Plan Empresarial</li>
+        <li>Monitoreo 24/7</li>
+        <li>Soporte en tiempo real</li>
+      </ul>
+      <button onclick="pagar('Plan Elite')">Contratar</button>
+    </div>
+
+    <div class="plan">
+      <h3>Plan Red Shield - S/1500</h3>
+      <ul>
+        <li>Todo lo del Plan Elite</li>
+        <li>Protección contra amenazas persistentes</li>
+        <li>Equipos dedicados de respuesta</li>
+      </ul>
+      <button onclick="pagar('Plan Red Shield')">Contratar</button>
+    </div>
+
+    <div class="plan">
+      <h3>Plan Titan - S/2000</h3>
+      <ul>
+        <li>Todo lo del Plan Red Shield</li>
+        <li>Auditorías trimestrales avanzadas</li>
+        <li>Capacitación continua para el equipo</li>
+      </ul>
+      <button onclick="pagar('Plan Titan')">Contratar</button>
+    </div>
+
+    <div class="plan">
+      <h3>Plan Fénix - S/3000</h3>
+      <ul>
+        <li>Todo lo del Plan Titan</li>
+        <li>Respuesta inmediata a incidentes</li>
+        <li>Consultoría estratégica global</li>
+      </ul>
+      <button onclick="pagar('Plan Fénix')">Contratar</button>
+    </div>
   </section>
 
-  <!-- Modal de carga -->
-  <div id="modalCarga" class="modal oculto">
-    <div class="contenido-modal">
-      <h2>Procesando <span id="planSeleccionado"></span>...</h2>
-      <p>Redirigiendo al soporte por WhatsApp</p>
-      <div class="barra-externa">
-        <div class="barra-interna" id="barraInterna"></div>
-      </div>
-      <div class="figuras" id="figuras"></div>
-    </div>
-  </div>
-
-  <section id="contacto">
-    <h2>Soporte y Consultas</h2>
-    <p>¿Tienes dudas o necesitas ayuda personalizada? Contáctanos:</p>
-    <p>
-      <a href="https://wa.me/51974853331?text=Hola,%20necesito%20ayuda%20con%20mi%20servicio%20Hiperseguro" target="_blank">
-        Soporte al Cliente por WhatsApp
-      </a>
-    </p>
+  <section id="soporteCliente">
+    <p>¿Necesitas ayuda? Soporte al cliente 24/7</p>
+    <button id="contactoSoporte">Contactar Soporte</button>
   </section>
 
   <footer>
-    <p>&copy; 2025 Hiperseguro | Desarrollado por JeremiasHuatuco</p>
+    &copy; 2025 Hiperseguro | Todos los derechos reservados.
   </footer>
 
   <script>
-    function pagar(plan) {
-      const modal = document.getElementById('modalCarga');
-      const planTexto = document.getElementById('planSeleccionado');
-      const barra = document.getElementById('barraInterna');
-      const figuras = document.getElementById('figuras');
+   const modoToggle = document.getElementById('modoToggle');
+  const body = document.body;
 
-      planTexto.textContent = plan;
-      modal.classList.remove('oculto');
+  function actualizarTextoBoton() {
+    modoToggle.textContent = body.classList.contains('modo-claro') ? 'Modo Oscuro' : 'Modo Claro';
+  }
 
-      // Fondo con figuras decorativas
-      figuras.innerHTML = '';
-      for (let i = 0; i < 20; i++) {
-        const figura = document.createElement('div');
-        figura.classList.add('figura');
-        figura.style.left = Math.random() * 100 + '%';
-        figura.style.top = Math.random() * 100 + '%';
-        figura.style.width = Math.random() * 30 + 10 + 'px';
-        figura.style.height = figura.style.width;
-        figura.style.opacity = 0.08;
-        figura.style.borderRadius = Math.random() > 0.5 ? '50%' : '4px';
-        figuras.appendChild(figura);
+  modoToggle.addEventListener('click', () => {
+    body.classList.toggle('modo-claro');
+    actualizarTextoBoton();
+  });
+
+  actualizarTextoBoton();
+
+  // Scroll horizontal rápido en planes
+  const contenedorPlanes = document.getElementById('planes');
+  contenedorPlanes.addEventListener('wheel', (e) => {
+    e.preventDefault();
+    contenedorPlanes.scrollLeft += e.deltaY * 3;
+  });
+
+  // Función general para iniciar carga y redirigir a WhatsApp
+  function iniciarCargaRedireccion(destino = 'soporte', plan = '') {
+    const modal = document.createElement('div');
+    modal.classList.add('modal');
+    modal.innerHTML = `
+      <div class="contenido-modal">
+        <p>${destino === 'soporte' ? 'Conectando con soporte...' : `Contratando ${plan}...`}</p>
+        <div class="barra-externa">
+          <div class="barra-interna" id="barraCarga"></div>
+        </div>
+      </div>
+    `;
+    document.body.appendChild(modal);
+
+    let progreso = 0;
+    const barra = modal.querySelector('#barraCarga');
+
+    const intervalo = setInterval(() => {
+      progreso += Math.random() * 90;
+      barra.style.width = `${progreso}%`;
+
+      if (progreso >= 100) {
+        clearInterval(intervalo);
+        document.body.removeChild(modal);
+        const mensaje = destino === 'soporte'
+          ? 'Hola, necesito soporte con Hiperseguro.'
+          : `Hola, quiero contratar el ${plan}.`;
+        const numero = '51974853331';
+        const url = `https://wa.me/${numero}?text=${encodeURIComponent(mensaje)}`;
+        window.open(url, '_blank');
       }
+    }, 100);
+  }
 
-      // Animación de barra de carga
-      let porcentaje = 0;
-      barra.style.width = '0%';
-      let intervalo = setInterval(() => {
-        porcentaje += 4;
-        barra.style.width = porcentaje + '%';
-        if (porcentaje >= 100) {
-          clearInterval(intervalo);
-          const mensaje = encodeURIComponent(`Hola, quiero contratar el ${plan} de Hiperseguro.`);
-          window.location.href = `https://wa.me/51974853331?text=${mensaje}`;
-        }
-      }, 80);
-    }
+  // Botón contacto soporte
+  const btnSoporte = document.getElementById('contactoSoporte');
+  btnSoporte.addEventListener('click', () => {
+    iniciarCargaRedireccion('soporte');
+  });
+
+  // Función de pago al contratar
+  function pagar(plan) {
+    iniciarCargaRedireccion('plan', plan);
+  }
   </script>
-
 </body>
 </html>
