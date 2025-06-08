@@ -549,6 +549,40 @@
   function pagar(plan) {
     iniciarCargaRedireccion('plan', plan);
   }
+
+    function ajustarEscala() {
+    const anchoVentana = window.innerWidth;
+    const altoVentana = window.innerHeight;
+    const dpr = window.devicePixelRatio || 1;
+
+    // Ancho base considerado como "seguro"
+    const anchoBase = 390; // iPhone 12 en vertical, por ejemplo
+
+    // Escala según el ancho disponible
+    const escala = anchoVentana / anchoBase;
+
+    // Si el ancho es menor que el base, se escala; si no, se deja tal cual
+    if (anchoVentana < anchoBase) {
+      document.body.style.transform = `scale(${escala})`;
+      document.body.style.transformOrigin = 'top left';
+      document.body.style.width = `${100 / escala}%`; // Ajusta el ancho para evitar scroll horizontal
+    } else {
+      // Restaura a normal si ya no es necesario escalar
+      document.body.style.transform = '';
+      document.body.style.transformOrigin = '';
+      document.body.style.width = '';
+    }
+
+    // Opcional: puedes detectar orientación para hacer ajustes adicionales
+    const esVertical = altoVentana > anchoVentana;
+    document.body.classList.toggle('modo-vertical', esVertical);
+    document.body.classList.toggle('modo-horizontal', !esVertical);
+  }
+
+  // Ejecutar en eventos relevantes
+  window.addEventListener('load', ajustarEscala);
+  window.addEventListener('resize', ajustarEscala);
+  window.addEventListener('orientationchange', ajustarEscala);
   </script>
 </body>
 </html>
