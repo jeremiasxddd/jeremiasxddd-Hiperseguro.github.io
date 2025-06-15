@@ -357,10 +357,217 @@
       color: var(--texto-claro);
       box-shadow: 0 0 15px #007a71;
     }
+
+    #pantallaSobre {
+  position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+  background: linear-gradient(135deg, #111, #333);
+  color: #f5f5f5;
+  display: flex; justify-content: center; align-items: center;
+  padding: 2rem;
+  z-index: 10000;
+  transition: opacity 0.5s;
+}
+
+#pantallaSobre.oculto {
+  display: none;
+}
+
+.contenido-sobre {
+  max-width: 700px;
+  background: rgba(255,255,255,0.05);
+  padding: 2rem;
+  border-radius: 15px;
+  box-shadow: 0 0 20px rgba(255,255,255,0.1);
+  text-align: center;
+  animation: fadeIn 0.6s ease-out;
+}
+
+.contenido-sobre h2 {
+  font-size: 2rem;
+  margin-bottom: 1rem;
+  color: #00ffc3;
+}
+
+.contenido-sobre p {
+  font-size: 1.1rem;
+  line-height: 1.6;
+  margin-bottom: 1rem;
+}
+
+.contenido-sobre button {
+  padding: 0.7rem 1.5rem;
+  background: #00ffc3;
+  border: none;
+  border-radius: 8px;
+  color: #000;
+  cursor: pointer;
+  font-weight: bold;
+  transition: background 0.3s;
+}
+
+.contenido-sobre button:hover {
+  background: #00ccaa;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: scale(0.95); }
+  to { opacity: 1; transform: scale(1); }
+}
+
+#btnSobre {
+  padding: 0.6rem 1.2rem;
+  background: #00ffc3;
+  border: none;
+  border-radius: 8px;
+  color: #000;
+  font-weight: bold;
+  cursor: pointer;
+  margin-left: 1rem;
+  transition: background 0.3s, transform 0.2s;
+}
+
+#btnSobre:hover {
+  background: #00ccaa;
+  transform: scale(1.05);
+}
+
+@import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@700&display=swap');
+
+/* Pantalla completa */
+#loader {
+  position: fixed;
+  inset: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: #000;
+  z-index: 99999;
+  transition: opacity 0.6s ease-out, visibility 0s 0.6s;
+}
+
+#loader.fade-out {
+  opacity: 0;
+  visibility: hidden;
+}
+
+.loader-contenido {
+  text-align: center;
+}
+
+/* Efecto de relleno desde blanco a gradiente */
+.texto-relleno {
+  font-family: 'Orbitron', sans-serif;
+  font-size: clamp(2rem, 10vw, 8rem);
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  background: linear-gradient(90deg, #00ffc3, #00ccff);
+  background-size: 0% 100%;
+  background-repeat: no-repeat;
+  background-clip: text;
+  -webkit-background-clip: text;
+  color: white;
+  animation: llenarTexto 2s forwards ease-in-out;
+}
+
+@keyframes llenarTexto {
+  from {
+    background-size: 0% 100%;
+    color: white;
+  }
+  to {
+    background-size: 100% 100%;
+    color: transparent;
+  }
+}
+
+.loader-slogan {
+  margin-top: 0.5rem;
+  font-size: clamp(0.8rem, 2.5vw, 1.2rem);
+  color: #00ffc3;
+  text-shadow: 0 0 8px rgba(0, 255, 195, 0.8);
+}
+
+
+.loader-slogan {
+  margin-top: 0.5rem;
+  font-size: clamp(0.8rem, 2.5vw, 1.2rem);
+  color: #00ffc3;
+  text-shadow: 0 0 8px rgba(0, 255, 195, 0.8);
+}
+
+#notificaciones-container {
+  position: fixed;
+  bottom: 20px;
+  left: 20px;
+  z-index: 9999;
+}
+
+.notificacion {
+  background: #0a0a0a;
+  color: #0ff;
+  padding: 12px 16px;
+  margin-bottom: 10px;
+  border-radius: 8px;
+  box-shadow: 0 0 12px #0ff;
+  font-weight: bold;
+  font-family: 'Arial Black', sans-serif;
+  animation: slideIn 0.4s ease-out;
+}
+
+@keyframes slideIn {
+  from { transform: translateX(-50px); opacity: 0; }
+  to { transform: translateX(0); opacity: 1; }
+}
+
+
+  .notificacion {
+    position: fixed;
+    bottom: 20px;
+    left: 20px;
+    background: #111;
+    color: #fff;
+    padding: 12px 18px;
+    border-radius: 8px;
+    box-shadow: 0 0 12px rgba(0, 255, 204, 0.6);
+    font-family: Arial, sans-serif;
+    font-size: 14px;
+    opacity: 0;
+    animation: aparecer 0.5s forwards, desaparecer 0.5s forwards 4.5s;
+    z-index: 9999;
+  }
+
+  @keyframes aparecer {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  @keyframes desaparecer {
+    to { opacity: 0; transform: translateY(20px); }
+  }
+
+  #cursorCanvas {
+  position: fixed;
+  top: 0;
+  left: 0;
+  pointer-events: none;
+  z-index: 9999;
+}
+
   </style>
 </head>
+
+<!-- LOADER INICIAL -->
+<div id="loader">
+  <div class="loader-contenido">
+    <h1 class="texto-relleno">HIPERSEGURO</h1>
+    <p class="loader-slogan">Especialistas en Hackeo Ético y Protección Digital</p>
+  </div>
+</div>
+
+
 <body>
-  <button id="modoToggle">Modo Oscuro</button>
+ <body>
+  <!-- CABECERA CON BOTONES -->
   <header id="header">
     <div class="logo-hiper">
       <div class="logo-container">
@@ -369,7 +576,30 @@
       </div>
     </div>
     <p>Especialistas en Hackeo Ético y Protección Digital</p>
+
+    <!-- Botones de interacción -->
+    <div class="botones-superiores">
+      <button id="modoToggle">Modo Oscuro</button>
+      <button id="btnSobre">Sobre Nosotros</button>
+    </div>
   </header>
+
+  <!-- AQUÍ VIENE TODO EL CONTENIDO DE TU PÁGINA: PLANES, SECCIONES, ETC. -->
+
+  <!-- MODAL SOBRE NOSOTROS -->
+  <div id="pantallaSobre" class="oculto">
+    <div class="contenido-sobre">
+      <h2>Sobre Hiperseguro</h2>
+      <p>
+        Hiperseguro es una organización enfocada en la protección digital, promoviendo el uso ético de la tecnología y el hackeo ético como herramienta de prevención.
+      </p>
+      <p><strong>Disclaimer:</strong> Todos los servicios están orientados a la seguridad y prevención. No promovemos el uso indebido del conocimiento técnico ni actividades ilegales.</p>
+      <p>Nuestra misión es proteger a personas y empresas del cibercrimen, mediante auditorías, capacitaciones y respuestas proactivas.</p>
+      <button id="btnCerrarSobre">Volver</button>
+    </div>
+  </div>
+</body>
+
 
   <section id="planes">
     <!-- planes aquí (igual que antes) -->
@@ -474,6 +704,7 @@
     </div>
   </section>
 
+  <canvas id="cursorCanvas"></canvas>
   <section id="soporteCliente">
     <p>¿Necesitas ayuda? Soporte al cliente 24/7</p>
     <button id="contactoSoporte">Contactar Soporte</button>
@@ -550,7 +781,7 @@
     iniciarCargaRedireccion('plan', plan);
   }
 
-    function ajustarEscala() {
+  function ajustarEscala() {
     const anchoVentana = window.innerWidth;
     const altoVentana = window.innerHeight;
     const dpr = window.devicePixelRatio || 1;
@@ -583,6 +814,161 @@
   window.addEventListener('load', ajustarEscala);
   window.addEventListener('resize', ajustarEscala);
   window.addEventListener('orientationchange', ajustarEscala);
+
+  document.getElementById('btnSobre').addEventListener('click', () => {
+  document.getElementById('pantallaSobre').classList.remove('oculto');
+});
+
+document.getElementById('btnCerrarSobre').addEventListener('click', () => {
+  document.getElementById('pantallaSobre').classList.add('oculto');
+});
+
+document.addEventListener('DOMContentLoaded', () => {
+  const loader = document.getElementById('loader');
+  const loaderText = document.querySelector('.loader-text');
+
+  // Espera a que termine la animación ::before
+  loaderText.addEventListener('animationend', () => {
+    loader.classList.add('fade-out');
+  }, { once: true });
+});
+
+
+document.addEventListener('DOMContentLoaded', () => {
+  const loader = document.getElementById('loader');
+  const texto = document.querySelector('.texto-relleno');
+
+  texto.addEventListener('animationend', () => {
+    loader.classList.add('fade-out');
+  });
+});
+
+// Notificaciones falsas de actividad cada 15 segundos
+  const nombres = ["Carlos", "Lucía", "Jorge", "Ana", "Pedro", "Valeria", "Luis", "Camila", "Sofía", "Diego"];
+  const ciudades = ["Lima", "Arequipa", "Cusco", "Trujillo", "Piura", "Chiclayo", "Iquitos", "Tacna", "Huancayo", "Puno"];
+
+  const acciones = [
+    "contrató",
+    "está explorando",
+    "eligió",
+    "está revisando",
+    "preguntó por",
+    "consultó sobre",
+    "activó",
+    "revisó",
+    "está usando",
+    "está comparando",
+    "está viendo",
+    "verificó",
+    "accedió al WhatsApp de negocios"
+  ];
+
+  const objetos = [
+    "el Plan Inicial",
+    "el Plan Estándar",
+    "el Plan Profesional",
+    "el Plan Titan",
+    "el Plan Red Shield",
+    "la sección de planes",
+    "el soporte técnico",
+    "el proceso de pago",
+    "la política de privacidad",
+    "la comparativa de planes",
+    "el sistema de seguridad",
+    "el chatbot",
+    "la interfaz principal",
+    "la pantalla de inicio",
+    "la sección de contacto"
+  ];
+
+  function generarMensaje() {
+    const nombre = nombres[Math.floor(Math.random() * nombres.length)];
+    const ciudad = ciudades[Math.floor(Math.random() * ciudades.length)];
+    const accion = acciones[Math.floor(Math.random() * acciones.length)];
+    const objeto = objetos[Math.floor(Math.random() * objetos.length)];
+    return `${nombre} de ${ciudad} ${accion} ${objeto}`;
+  }
+
+  function mostrarNotificacion() {
+    const noti = document.createElement("div");
+    noti.classList.add("notificacion");
+    noti.textContent = generarMensaje();
+    document.body.appendChild(noti);
+
+    const sonido = document.getElementById("notiSound");
+    if (sonido) sonido.play();
+
+    setTimeout(() => {
+      noti.remove();
+    }, 5000);
+  }
+
+  // Muestra una notificación cada 8 segundos
+ 
+  setInterval(mostrarNotificacion, 8000);
+
+
+
+  const canvas = document.getElementById("cursorCanvas");
+  const ctx = canvas.getContext("2d");
+
+  let width, height;
+  function resizeCanvas() {
+    width = window.innerWidth;
+    height = window.innerHeight;
+    canvas.width = width;
+    canvas.height = height;
+  }
+  resizeCanvas();
+  window.addEventListener("resize", resizeCanvas);
+
+  let particles = [];
+
+  document.addEventListener("mousemove", function (e) {
+    for (let i = 0; i < 5; i++) {
+      particles.push({
+        x: e.clientX,
+        y: e.clientY,
+        radius: Math.random() * 3 + 1,
+        alpha: 1,
+        dx: (Math.random() - 0.5) * 2,
+        dy: (Math.random() - 0.5) * 2,
+      });
+    }
+  });
+
+  function animateParticles() {
+    ctx.clearRect(0, 0, width, height);
+
+    particles.forEach((p, i) => {
+      p.x += p.dx;
+      p.y += p.dy;
+      p.alpha -= 0.02;
+      if (p.alpha <= 0) {
+        particles.splice(i, 1);
+      } else {
+        ctx.beginPath();
+        ctx.arc(p.x, p.y, p.radius, 0, Math.PI * 2);
+        ctx.fillStyle = `rgba(0, 255, 255, ${p.alpha})`; // color cian brillante
+        ctx.fill();
+      }
+    });
+
+    requestAnimationFrame(animateParticles);
+  }
+
+  animateParticles();
+
+  ctx.fillStyle = `rgba(0, 255, 255, ${p.alpha})`;
+
+
+
+
   </script>
+
+
+<!-- Contenedor para notificaciones dinámicas -->
+<div id="notificaciones-container"></div>
+  
 </body>
 </html>
